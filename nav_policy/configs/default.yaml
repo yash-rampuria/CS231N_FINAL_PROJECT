@@ -1,0 +1,54 @@
+# nav_policy default configuration.
+#
+# Paths are interpreted relative to the nav_policy/ directory unless they
+# start with "/" (absolute, e.g. inside the container).
+
+data:
+  raw_root: "data/raw"
+  processed_root: "data/processed"
+  runs:
+    - "flightroom_ssv_exp_2026-05-22_071733_trajs-110"
+    - "flightroom_ssv_exp_2026-05-22_071718"
+    - "flightroom_ssv_exp_2026-05-22_071353"
+    - "flightroom_ssv_exp_2026-05-22_064652_training_mode_shuffled_trajs"
+    # - "backroom_exp_04-29-26"
+    # - "packardpark_exp_04-29-26"
+  # Sub-trajectory IDs (within a stack) that should be skipped if missing the rgb video.
+  # The builder also auto-skips any stack without a matching rgb mp4.
+  drop_missing_rgb: true
+  val_fraction: 0.10
+  val_split_seed: 0
+
+window:
+  T: 4           # frame history length (input)
+  H: 10          # command horizon (output)
+  image_size: 224
+  imagenet_mean: [0.485, 0.456, 0.406]
+  imagenet_std:  [0.229, 0.224, 0.225]
+
+model:
+  resnet_backbone: "resnet18"
+  freeze_stem_and_layer1: true
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  cmd_dim: 4              # [vx, vy, vz, psi_dot]
+  goal_emb_dim: 32        # goal-vector projection (-> goal_emb_dim -> cat with LayerNorm'd GRU ctx)
+  goal_input_dim: 3       # 2 = heading only; 3 = heading + scale-normalized distance to goal
+  goal_distance_scale: 5.0  # divisor for the scalar distance channel (meters)
+  mlp_dropout: 0.1        # dropout applied after each ReLU in the MLP head (train only)
+
+train:
+  batch_size: 16
+  num_workers: 4
+  epochs: 15
+  color_jitter: true  # per-frame random brightness/contrast/saturation/hue on training split
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  lambda_smooth: 0.05
+  amp: true
+  grad_clip: 1.0
+  checkpoint_dir: "data/checkpoints"
+  log_every: 50
+  val_every_epoch: 1
+  seed: 0

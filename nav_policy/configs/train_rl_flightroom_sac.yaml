@@ -1,0 +1,87 @@
+# SAC variant — same rollouts/rewards as train_rl_flightroom.yaml.
+
+base_config: configs/flightroom.yaml
+checkpoint: data/checkpoints_a2_da2_crossattn/bc_best.pt
+
+frame: carl
+Kv: 2.0
+Ka: 5.0
+
+rl:
+  algorithm: sac
+  run_tag: rl_sac_a2
+  checkpoint_dir: data/checkpoints_rl_a2
+  seed: 0
+  n_iterations: 20
+  rollouts_per_iteration: 4
+  init_log_std: -0.5
+  freeze_backbone: false
+
+  rewards:
+    progress_weight: 1.0
+    heading_weight: 0.1
+    step_penalty: -0.01
+    action_smooth_weight: 0.05
+    collision_penalty: -10.0
+    bbox_penalty: -5.0
+    success_bonus: 5.0
+    success_position_tol: 0.5
+    success_yaw_tol_rad: 0.5
+    bbox_margin: 2.0
+
+  rollout:
+    run_until_terminal: true
+    max_rollout_s: 60.0
+    start_mode: expert_x0
+    collision_depth_threshold_m: 0.25
+    goal_position_tol_m: 0.5
+    goal_yaw_tol_rad: 0.5
+    depth_inference_stride: 3
+    check_collision: true
+    check_goal: true
+    warmup_steps: 30
+    warmup_kp_pos: 2.0
+    warmup_kd_vel: 1.0
+    warmup_kp_yaw: 2.0
+    warmup_max_vel: 0.8
+    warmup_max_yaw_rate: 1.0
+    warmup_prime_policy_buffer: true
+    settle_vel_mps: 0.12
+    settle_body_rate_radps: 0.35
+    settle_yaw_rate_radps: 0.30
+    settle_steps: 20
+
+  sac:
+    lr: 3.0e-4
+    gamma: 0.99
+    tau: 0.005
+    alpha: 0.2
+    auto_alpha: true
+    batch_size: 256
+    updates_per_iter: 4
+    replay_capacity: 100000
+
+rollouts:
+  - name: flightroom_071718_q00
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00000.pt
+    sub_idx: 0
+
+  - name: flightroom_071718_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00001.pt
+    sub_idx: 0
+
+  - name: flightroom_071353_q00
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00000.pt
+    sub_idx: 0
+
+  - name: flightroom_071353_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00001.pt
+    sub_idx: 0

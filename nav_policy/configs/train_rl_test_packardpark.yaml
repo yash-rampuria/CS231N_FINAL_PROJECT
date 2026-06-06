@@ -1,0 +1,46 @@
+# OOD test RL eval (packardpark — held out from BC train/val).
+#
+#   docker compose -f nav_policy/docker-compose.yml run --rm nav_policy \
+#     python scripts/train_rl.py --config configs/train_rl_test_packardpark.yaml \
+#       --resume-from data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_best.pt \
+#       --save-videos
+
+base_config: configs/train_rl_100_expert_x0.yaml
+
+frame: carl
+
+rl:
+  run_tag: rl_test_packardpark
+  checkpoint_dir: data/checkpoints_rl_test_packardpark
+  total_episodes: 10
+  rollouts_per_iteration: 1
+  save_every_n_iterations: 5
+
+save_videos: true
+
+rollouts:
+  - name: packardpark_00_sub0
+    scene: packardpark
+    rollout: baseline
+    setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00000.pt
+    sub_idx: 0
+  - name: packardpark_00_sub1
+    scene: packardpark
+    rollout: baseline
+    setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00000.pt
+    sub_idx: 1
+  - name: packardpark_01_sub0
+    scene: packardpark
+    rollout: baseline
+    setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00001.pt
+    sub_idx: 0
+  - name: packardpark_01_sub1
+    scene: packardpark
+    rollout: baseline
+    setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00001.pt
+    sub_idx: 1
+  - name: packardpark_02_sub0
+    scene: packardpark
+    rollout: baseline
+    setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00002.pt
+    sub_idx: 0

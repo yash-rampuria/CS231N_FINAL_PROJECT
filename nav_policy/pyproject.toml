@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nav_policy"
+version = "0.1.0"
+description = "RGB-only vision-to-velocity navigation policy for the FiGS quadrotor simulator."
+requires-python = ">=3.10,<3.11"
+authors = [{ name = "Rayan" }]
+dependencies = [
+    "numpy",
+    "scipy",
+    "torch",
+    "torchvision",
+    "pyyaml",
+    "tqdm",
+    "imageio[ffmpeg]",
+    "av",
+    "opencv-python-headless",
+    "grad-cam",
+]
+
+[project.optional-dependencies]
+wandb = ["wandb"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

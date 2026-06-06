@@ -1,0 +1,18 @@
+# Phase 2: mixed expert_x0 + random mid-path starts (same 8 train val trajs).
+# Resume from expert-x0 checkpoint after 100-episode run looks good.
+#
+#   docker compose -f nav_policy/docker-compose.yml run --rm nav_policy \
+#     python scripts/train_rl.py --config configs/train_rl_mixed_recovery.yaml \
+#       --resume-from data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_best.pt
+
+base_config: configs/train_rl_100_expert_x0.yaml
+
+rl:
+  run_tag: rl_mixed_recovery
+  checkpoint_dir: data/checkpoints_rl_mixed_recovery
+  total_episodes: 100
+  rollout:
+    start_mode: mixed
+    random_start_prob: 0.35
+    random_start_min_frac: 0.05
+    random_start_max_frac: 0.85

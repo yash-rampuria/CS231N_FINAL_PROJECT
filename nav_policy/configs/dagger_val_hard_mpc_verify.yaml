@@ -1,0 +1,92 @@
+# MPC verification: PID warm-up at x0, then VehicleRateMPC executes directly (no policy).
+# Expert uses the same motor-command path as FiGS collection (not VelocityController).
+# Reference time is aligned to nearest expert pose (fixes warm-up clock skew).
+#
+#   python scripts/run_dagger.py --config configs/dagger_val_hard_mpc_verify.yaml
+#
+# Does NOT append to manifest (verify_only). Check videos + goal_reached in summary.
+
+base_config: configs/flightroom.yaml
+checkpoint: data/checkpoints_dagger_balanced_r12/bc_best.pt
+round: 3
+output_run: dagger_val_hard_mpc_verify
+run_tag: dagger_val_hard_mpc_verify
+verify_only: true
+
+oracle: mpc
+mpc_policy: vrmpc_rrt
+frame: carl
+Kv: 2.0
+Ka: 5.0
+
+extended_horizon: true
+collection:
+  run_until_terminal: true
+  max_rollout_s: 60.0
+  collision_depth_threshold_m: 0.25
+  goal_position_tol_m: 0.5
+  goal_yaw_tol_rad: 0.5
+  depth_inference_stride: 3
+  check_collision: true
+  check_goal: true
+  warmup_steps: 30
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: false
+  settle_vel_mps: 0.12
+  settle_body_rate_radps: 0.35
+  settle_yaw_rate_radps: 0.30
+  settle_steps: 20
+
+intervention:
+  enabled: true
+  mpc_immediate_after_warmup: true
+  refresh_mpc_on_intervention: true
+  mpc_use_rti_for_execution: false
+  warmup_steps: 30
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: false
+
+rollouts:
+  - name: flightroom_val_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00001.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q04
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00004.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q06
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00006.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q08
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00008.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q10
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00010.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q11
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00011.pt
+    sub_idx: 0

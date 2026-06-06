@@ -1,0 +1,6 @@
+[submodule "FiGS-Standalone"]
+	path = FiGS-Standalone
+	url = https://github.com/kothari1/FiGS-Standalone.git
+[submodule "SINGER"]
+	path = SINGER
+	url = https://github.com/kothari1/SINGER.git

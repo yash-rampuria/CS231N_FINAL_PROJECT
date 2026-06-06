@@ -1,0 +1,40 @@
+# Ablation A1: ResNet + DA2 concat fusion (no cross-attention / pre-fusion LayerNorm).
+
+data:
+  processed_root: "data/processed_flightroom"
+  bucket_sampling: true
+
+window:
+  T: 4
+  H: 10
+  image_size: 224
+
+model:
+  arch: rgb_da2_concat_v1
+  cmd_dim: 4
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  goal_emb_dim: 32
+  goal_input_dim: 3
+  goal_distance_scale: 5.0
+  mlp_dropout: 0.1
+  depth_feat_dim: 256
+  freeze_stem_and_layer1: true
+
+train:
+  batch_size: 128
+  epochs: 10
+  run_tag: a1_da2_concat
+  color_jitter: true
+  photometric_aug:
+    blur_prob: 0.3
+    blur_sigma_range: [0.5, 1.5]
+    gamma_prob: 0.3
+    gamma_range: [0.7, 1.4]
+    brightness_prob: 0.3
+    brightness_range: [0.6, 1.4]
+  lr: 6.0e-4
+  checkpoint_dir: "data/checkpoints_a1_da2_concat"
+  early_stopping_patience: 3
+  seed: 0

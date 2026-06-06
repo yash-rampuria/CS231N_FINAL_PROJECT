@@ -1,0 +1,45 @@
+# Minimal config for end-to-end smoke testing.
+# Uses only the backroom rollouts (smaller dataset) and 1 epoch.
+
+data:
+  raw_root: "data/raw"
+  processed_root: "data/processed_smoke"
+  runs:
+    - "backroom_exp_04-29-26"
+  drop_missing_rgb: true
+  val_fraction: 0.20
+  val_split_seed: 0
+
+window:
+  T: 4
+  H: 10
+  image_size: 224
+  imagenet_mean: [0.485, 0.456, 0.406]
+  imagenet_std:  [0.229, 0.224, 0.225]
+
+model:
+  resnet_backbone: "resnet18"
+  freeze_stem_and_layer1: true
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  cmd_dim: 4
+  goal_emb_dim: 32
+  goal_input_dim: 3
+  goal_distance_scale: 5.0
+  mlp_dropout: 0.1
+
+train:
+  batch_size: 8
+  num_workers: 2
+  epochs: 1
+  color_jitter: true
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  lambda_smooth: 0.05
+  amp: true
+  grad_clip: 1.0
+  checkpoint_dir: "data/checkpoints_smoke"
+  log_every: 10
+  val_every_epoch: 1
+  seed: 0

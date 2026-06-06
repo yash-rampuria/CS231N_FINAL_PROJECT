@@ -1,0 +1,50 @@
+# Zero-shot OOD closed-loop: packardpark only (never processed for train/val/DAgger).
+# Backroom is cross-scene val — use eval_closed_loop_backroom_val.yaml instead.
+
+checkpoint: data/checkpoints_a2_da2_crossattn/bc_best.pt
+output_dir: data/eval/ood_packardpark_suite
+run_tag: ood_packardpark_suite
+
+frame: carl
+Kv: 2.0
+Ka: 5.0
+
+metrics:
+  time_buffer_s: 5.0
+  collision_depth_threshold_m: 0.25
+  goal_position_tol_m: 0.5
+  goal_yaw_tol_rad: 0.5
+  success_tracking_tol_m: 1.0
+  bbox_margin: 2.0
+  depth_inference_stride: 3
+  check_collision: true
+  check_goal: true
+  warmup_steps: 30
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: true
+
+rollouts:
+  - {name: packard_v00_s0, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00000.pt, sub_idx: 0}
+  - {name: packard_v00_s1, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00000.pt, sub_idx: 1}
+  - {name: packard_v01_s0, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00001.pt, sub_idx: 0}
+  - {name: packard_v01_s1, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00001.pt, sub_idx: 1}
+  - {name: packard_v02_s0, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00002.pt, sub_idx: 0}
+  - {name: packard_v02_s1, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00002.pt, sub_idx: 1}
+  - {name: packard_v03_s0, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00003.pt, sub_idx: 0}
+  - {name: packard_v03_s1, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00003.pt, sub_idx: 1}
+  - {name: packard_v04_s0, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00004.pt, sub_idx: 0}
+  - {name: packard_v04_s1, scene: packardpark, rollout: baseline,
+     setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00004.pt, sub_idx: 1}

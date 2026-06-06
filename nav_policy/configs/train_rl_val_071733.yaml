@@ -1,0 +1,78 @@
+# Held-out val RL eval/finetune: 071733 (12 queries, NOT in BC train_runs).
+#
+#   docker compose -f nav_policy/docker-compose.yml run --rm nav_policy \
+#     python scripts/train_rl.py --config configs/train_rl_val_071733.yaml \
+#       --resume-from data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_best.pt
+
+base_config: configs/train_rl_100_expert_x0.yaml
+
+rl:
+  run_tag: rl_val_071733
+  checkpoint_dir: data/checkpoints_rl_val_071733
+  total_episodes: 24
+  rollouts_per_iteration: 1
+  save_every_n_iterations: 4
+
+save_videos: true
+
+rollouts:
+  - name: flightroom_val_q00
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00000.pt
+    sub_idx: 0
+  - name: flightroom_val_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00001.pt
+    sub_idx: 0
+  - name: flightroom_val_q02
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00002.pt
+    sub_idx: 0
+  - name: flightroom_val_q03
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00003.pt
+    sub_idx: 0
+  - name: flightroom_val_q04
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00004.pt
+    sub_idx: 0
+  - name: flightroom_val_q05
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00005.pt
+    sub_idx: 0
+  - name: flightroom_val_q06
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00006.pt
+    sub_idx: 0
+  - name: flightroom_val_q07
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00007.pt
+    sub_idx: 0
+  - name: flightroom_val_q08
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00008.pt
+    sub_idx: 0
+  - name: flightroom_val_q09
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00009.pt
+    sub_idx: 0
+  - name: flightroom_val_q10
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00010.pt
+    sub_idx: 0
+  - name: flightroom_val_q11
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00011.pt
+    sub_idx: 0

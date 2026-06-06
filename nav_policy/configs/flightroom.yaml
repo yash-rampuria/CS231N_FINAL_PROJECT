@@ -1,0 +1,76 @@
+# nav_policy flightroom configuration.
+#
+# Goal supervision: expert sub-traj endpoint Xro[0:2,-1] (see build_dataset_flightroom.py).
+# Run assignment is EXPLICIT (no random split):
+#   train_runs -> split='train'  (flightroom only)
+#   val_runs   -> split='val'    (flightroom held-out + backroom cross-scene val)
+#   test_runs  -> NOT processed; closed-loop OOD eval only (packardpark)
+
+data:
+  raw_root: "data/raw"
+  processed_root: "data/processed_flightroom"
+  cache_blobs_in_memory: false
+  cache_lru_size: 128
+  bucket_sampling: true
+
+  train_runs:
+    - "flightroom_ssv_exp_2026-05-22_064652_training_mode_shuffled_trajs"
+    - "flightroom_ssv_exp_2026-05-22_071718"
+    - "flightroom_ssv_exp_2026-05-22_071353"
+
+  val_runs:
+    - "flightroom_ssv_exp_2026-05-22_071733_trajs-110"
+    - "backroom_exp_04-29-26"
+
+  test_runs:
+    - "packardpark_exp_04-29-26"
+
+window:
+  T: 4
+  H: 10
+  image_size: 224
+  imagenet_mean: [0.485, 0.456, 0.406]
+  imagenet_std:  [0.229, 0.224, 0.225]
+
+model:
+  arch: rgb_da2_crossattn_v1
+  resnet_backbone: "resnet18"
+  freeze_stem_and_layer1: true
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  cmd_dim: 4
+  goal_emb_dim: 32
+  goal_input_dim: 3
+  goal_distance_scale: 5.0
+  mlp_dropout: 0.1
+  depth_feat_dim: 256
+  cross_attn_heads: 4
+
+train:
+  batch_size: 128
+  num_workers: 0
+  epochs: 10
+  color_jitter: true
+  observation_latency: 0
+  photometric_aug:
+    blur_prob: 0.3
+    blur_sigma_range: [0.5, 1.5]
+    gamma_prob: 0.3
+    gamma_range: [0.7, 1.4]
+    brightness_prob: 0.3
+    brightness_range: [0.6, 1.4]
+  lr: 6.0e-4
+  weight_decay: 1.0e-4
+  lambda_smooth: 0.05
+  amp: true
+  grad_clip: 1.0
+  checkpoint_dir: "data/checkpoints_a2_da2_crossattn"
+  log_every: 50
+  early_stopping_patience: 3
+  seed: 0
+  # DAgger fine-tune: balanced 50/50 expert vs round>=1 windows (no-op if no DAgger data).
+  # Alternative: dagger_sampling: oversample with dagger_oversample_factor: 15
+  dagger_sampling: balanced
+  dagger_oversample_factor: 15
+  dagger_round_min: 1

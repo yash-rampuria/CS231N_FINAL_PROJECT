@@ -1,0 +1,62 @@
+# configs/ablation_no_goal.yaml -- no-goal-heading ablation.
+#
+# Identical to default.yaml except:
+#   - train.zero_goal_heading: true  (forces goal_heading input to [0, 0])
+#   - train.checkpoint_dir uses a separate dir so it doesn't overwrite the
+#     main BC checkpoint.
+#   - train.run_tag is for the collector script.
+#
+# Pair with:
+#   python scripts/eval_offline.py --config configs/ablation_no_goal.yaml \
+#       --checkpoint data/checkpoints_no_goal/bc_best.pt \
+#       --output-dir data/eval/no_goal_offline
+#   python scripts/eval_in_figs.py --config configs/eval_no_goal.yaml
+#
+# The checkpoint stamps train.zero_goal_heading=true, so the policy controller
+# automatically zeros the goal heading at deployment.
+
+data:
+  raw_root: "data/raw"
+  processed_root: "data/processed"
+  runs:
+    - "backroom_exp_04-29-26"
+    - "packardpark_exp_04-29-26"
+  drop_missing_rgb: true
+  val_fraction: 0.10
+  val_split_seed: 0
+
+window:
+  T: 4
+  H: 10
+  image_size: 224
+  imagenet_mean: [0.485, 0.456, 0.406]
+  imagenet_std:  [0.229, 0.224, 0.225]
+
+model:
+  resnet_backbone: "resnet18"
+  freeze_stem_and_layer1: true
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  cmd_dim: 4
+  goal_emb_dim: 32
+  goal_input_dim: 3        # keep the same architecture as the baseline
+  goal_distance_scale: 5.0 # zeroed at the dataset level via train.zero_goal_heading
+  mlp_dropout: 0.1
+
+train:
+  batch_size: 16
+  num_workers: 4
+  epochs: 15
+  color_jitter: true
+  zero_goal_heading: true        # ablation: force goal heading to [0, 0]
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  lambda_smooth: 0.05
+  amp: true
+  grad_clip: 1.0
+  checkpoint_dir: "data/checkpoints_no_goal"
+  log_every: 50
+  val_every_epoch: 1
+  seed: 0
+  run_tag: ablation_no_goal

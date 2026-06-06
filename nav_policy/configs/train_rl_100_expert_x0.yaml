@@ -1,0 +1,130 @@
+# PPO: 100 full-val episodes, expert x0 starts (071718 + 071353 train runs).
+#
+#   docker compose -f nav_policy/docker-compose.yml run --rm nav_policy \
+#     python scripts/train_rl.py --config configs/train_rl_100_expert_x0.yaml
+#
+# Outputs (checkpoints every 4 episodes / each PPO update):
+#   data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_latest.pt
+#   data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_best.pt
+#   data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_episodes.csv
+#   data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_log.csv
+#   data/checkpoints_rl_100_expert_x0/rl_100_expert_x0_summary.json
+
+base_config: configs/flightroom.yaml
+checkpoint: data/checkpoints_dagger_balanced_r12/bc_best.pt
+
+frame: carl
+Kv: 2.0
+Ka: 5.0
+
+save_videos: false
+
+rl:
+  algorithm: ppo
+  run_tag: rl_100_expert_x0
+  checkpoint_dir: data/checkpoints_rl_100_expert_x0
+  seed: 0
+  total_episodes: 100
+  rollouts_per_iteration: 8
+  ppo_update_every_episodes: 8
+  eval_every_episodes: 24
+  eval_config: configs/eval_closed_loop_flightroom_suite.yaml
+  reuse_simulator: true
+  compress_transitions: true
+  save_every_n_iterations: 4
+  init_log_std: -2
+  freeze_backbone: true
+  eval_deterministic: false
+
+  bc_anchor:
+    checkpoint: data/checkpoints_dagger_balanced_r12/bc_best.pt
+    kl_coef: 0.02
+
+  rewards:
+    progress_weight: 1.0
+    heading_weight: 0.1
+    step_penalty: -0.01
+    action_smooth_weight: 0.05
+    collision_penalty: -50.0
+    timeout_penalty: -20.0
+    bbox_penalty: -5.0
+    success_bonus: 5.0
+    success_position_tol: 0.4
+    success_yaw_tol_rad: 0.4
+    bbox_margin: 2.0
+
+  rollout:
+    run_until_terminal: true
+    max_rollout_s: 60.0
+    start_mode: expert_x0
+    collision_depth_threshold_m: 0.25
+    goal_position_tol_m: 0.4
+    goal_yaw_tol_rad: 0.4
+    depth_inference_stride: 3
+    check_collision: true
+    check_goal: true
+    warmup_steps: 40
+    warmup_kp_pos: 2.0
+    warmup_kd_vel: 1.0
+    warmup_kp_yaw: 2.0
+    warmup_max_vel: 0.8
+    warmup_max_yaw_rate: 1.0
+    warmup_prime_policy_buffer: true
+    settle_vel_mps: 0.10
+    settle_body_rate_radps: 0.30
+    settle_yaw_rate_radps: 0.25
+    settle_steps: 10
+
+  ppo:
+    lr: 3.0e-5
+    gamma: 0.99
+    gae_lambda: 0.95
+    clip_eps: 0.1
+    value_coef: 0.5
+    entropy_coef: 0.01
+    ref_kl_coef: 0.02
+    max_grad_norm: 1.0
+    n_epochs: 1
+    batch_size: 128
+
+rollouts:
+  - name: flightroom_071718_q00
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00000.pt
+    sub_idx: 0
+  - name: flightroom_071718_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00001.pt
+    sub_idx: 0
+  - name: flightroom_071718_q02
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00002.pt
+    sub_idx: 0
+  - name: flightroom_071718_q03
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00003.pt
+    sub_idx: 0
+  - name: flightroom_071353_q00
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00000.pt
+    sub_idx: 0
+  - name: flightroom_071353_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00001.pt
+    sub_idx: 0
+  - name: flightroom_071353_q02
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00002.pt
+    sub_idx: 0
+  - name: flightroom_071353_q03
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00003.pt
+    sub_idx: 0

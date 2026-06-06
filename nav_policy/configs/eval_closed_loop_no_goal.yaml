@@ -1,0 +1,47 @@
+# configs/eval_closed_loop_no_goal.yaml -- closed-loop eval for the
+# no-goal-heading ablation.  Points at the no-goal checkpoint; the policy
+# controller reads train.zero_goal_heading=true from the checkpoint config and
+# forces the goal-heading input to [0, 0] at every step.
+
+checkpoint: data/checkpoints_no_goal/bc_best.pt
+output_dir: data/eval/no_goal_closed_loop
+run_tag: ablation_no_goal_closed_loop
+
+frame: carl
+Kv: 2.0
+Ka: 5.0
+
+metrics:
+  time_buffer_s: 5.0
+  collision_depth_threshold_m: 0.25
+  goal_position_tol_m: 0.5
+  goal_yaw_tol_rad: 0.5
+  success_tracking_tol_m: 1.0
+  bbox_margin: 2.0
+  depth_inference_stride: 3
+  check_collision: true
+  check_goal: true
+  warmup_steps: 30
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: true
+
+rollouts:
+  - name: backroom_00_sub0
+    scene: backroom
+    rollout: baseline
+    setup_from: data/raw/backroom_exp_04-29-26/trajectories_val00000.pt
+    sub_idx: 0
+  - name: backroom_00_sub2
+    scene: backroom
+    rollout: baseline
+    setup_from: data/raw/backroom_exp_04-29-26/trajectories_val00000.pt
+    sub_idx: 2
+  - name: packardpark_00_sub0
+    scene: packardpark
+    rollout: baseline
+    setup_from: data/raw/packardpark_exp_04-29-26/trajectories_val00000.pt
+    sub_idx: 0

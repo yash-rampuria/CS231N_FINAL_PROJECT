@@ -1,0 +1,78 @@
+# nav_policy flightroom configuration for Modal cloud training.
+#
+# Paths point to /data/ where the Modal Volume is mounted.
+# Goal supervision: expert sub-traj endpoint Xro[0:2,-1] (see build_dataset_flightroom.py).
+# Key differences from flightroom.yaml (local):
+#   - processed_root  -> /data/processed_flightroom_da2  (Modal Volume)
+#   - checkpoint_dir  -> /data/checkpoints_a2_da2_crossattn (Modal Volume)
+#   - num_workers: 4  (Modal A100 instances have 40+ vCPUs and 80+ GB RAM)
+#   - bucket_sampling: false  (fast NVMe SSD; use true random shuffle)
+
+data:
+  raw_root: "/data/raw"
+  processed_root: "/data/processed_flightroom_da2"
+  bucket_sampling: false      # true random shuffle; no disk-read penalty on Modal NVMe
+  cache_blobs_in_memory: false
+  cache_lru_size: 64          # per-worker LRU; 4 workers x 64 x ~14 MB = ~3.6 GB total, fine on A100
+
+  train_runs:
+    - "flightroom_ssv_exp_2026-05-22_064652_training_mode_shuffled_trajs"
+    - "flightroom_ssv_exp_2026-05-22_071718"
+    - "flightroom_ssv_exp_2026-05-22_071353"
+
+  val_runs:
+    - "flightroom_ssv_exp_2026-05-22_071733_trajs-110"
+    - "backroom_exp_04-29-26"
+
+  test_runs:
+    - "packardpark_exp_04-29-26"
+
+window:
+  T: 4
+  H: 10
+  image_size: 224
+  imagenet_mean: [0.485, 0.456, 0.406]
+  imagenet_std:  [0.229, 0.224, 0.225]
+
+model:
+  arch: rgb_da2_crossattn_v1
+  resnet_backbone: "resnet18"
+  freeze_stem_and_layer1: true
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  cmd_dim: 4
+  goal_emb_dim: 32
+  goal_input_dim: 3
+  goal_distance_scale: 5.0
+  mlp_dropout: 0.1
+  depth_feat_dim: 256
+  cross_attn_heads: 4
+
+train:
+  batch_size: 128
+  num_workers: 4              # safe on Modal; 4 parallel prefetch workers
+  epochs: 10
+  color_jitter: true
+  observation_latency: 0
+  photometric_aug:
+    blur_prob: 0.3
+    blur_sigma_range: [0.5, 1.5]
+    gamma_prob: 0.3
+    gamma_range: [0.7, 1.4]
+    brightness_prob: 0.3
+    brightness_range: [0.6, 1.4]
+  lr: 6.0e-4
+  weight_decay: 1.0e-4
+  lambda_smooth: 0.05
+  amp: true
+  grad_clip: 1.0
+  checkpoint_dir: "/data/checkpoints_a2_da2_crossattn"
+  run_tag: a2_da2_crossattn
+  log_every: 50
+
+  early_stopping_patience: 3   # stop if val_mse_overall does not improve for 3 epochs
+  seed: 0
+  dagger_sampling: balanced
+  dagger_oversample_factor: 15
+  dagger_round_min: 1

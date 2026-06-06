@@ -1,0 +1,32 @@
+# Core
+numpy==1.26.4
+scipy==1.15.3
+torch==2.7.0+cu128
+torchvision==0.22.0+cu128
+PyYAML==6.0.3
+tqdm==4.67.3
+
+# Vision / depth
+timm==0.6.7
+einops==0.8.2
+opencv-python-headless==4.10.0.84
+ImageIO==2.37.3
+imageio-ffmpeg==0.6.0
+av==17.0.1
+
+# RL
+gymnasium==0.29.1
+stable-baselines3==2.2.1
+tensorboard==2.20.0
+
+# 3DGS / scene rendering
+nerfstudio==1.1.5
+gsplat==1.5.3
+
+# Local packages (editable installs)
+# -e /path/to/FiGS-Standalone          (figs)
+# -e /path/to/V-LEAD/nav_policy/src    (nav_policy)
+
+# Data / plotting
+pandas==2.3.3
+matplotlib==3.10.9

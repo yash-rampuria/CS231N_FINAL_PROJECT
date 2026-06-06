@@ -1,0 +1,57 @@
+# Closed-loop eval: 8 RL training queries (071718 + 071353, expert x0).
+# Metrics aligned with train_rl_100_expert_x0_stable.yaml.
+#
+#   docker compose -f nav_policy/docker-compose.yml run --rm nav_policy \
+#     python scripts/eval_in_figs.py --config configs/eval_closed_loop_rl_train_suite.yaml \
+#       --checkpoint data/checkpoints_rl_100_expert_x0_stable/rl_100_expert_x0_stable_latest.pt \
+#       --output-dir data/eval/rl_stable_train_suite \
+#       --run-tag rl_stable_train_suite
+
+checkpoint: data/checkpoints_dagger_balanced_r12/bc_best.pt
+output_dir: data/eval/rl_train_suite
+run_tag: rl_train_suite
+
+frame: carl
+Kv: 2.0
+Ka: 5.0
+
+metrics:
+  run_until_terminal: true
+  max_rollout_s: 35.0
+  collision_depth_threshold_m: 0.25
+  goal_position_tol_m: 0.4
+  goal_yaw_tol_rad: 0.4
+  success_tracking_tol_m: 1.0
+  bbox_margin: 2.0
+  depth_inference_stride: 5
+  check_collision: true
+  check_goal: true
+  warmup_steps: 40
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: true
+  settle_vel_mps: 0.12
+  settle_body_rate_radps: 0.35
+  settle_yaw_rate_radps: 0.30
+  settle_steps: 8
+
+rollouts:
+  - {name: flightroom_071718_q00, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00000.pt, sub_idx: 0}
+  - {name: flightroom_071718_q01, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00001.pt, sub_idx: 0}
+  - {name: flightroom_071718_q02, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00002.pt, sub_idx: 0}
+  - {name: flightroom_071718_q03, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071718/trajectories_val00003.pt, sub_idx: 0}
+  - {name: flightroom_071353_q00, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00000.pt, sub_idx: 0}
+  - {name: flightroom_071353_q01, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00001.pt, sub_idx: 0}
+  - {name: flightroom_071353_q02, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00002.pt, sub_idx: 0}
+  - {name: flightroom_071353_q03, scene: flightroom_ssv_exp, rollout: baseline,
+     setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071353/trajectories_val00003.pt, sub_idx: 0}

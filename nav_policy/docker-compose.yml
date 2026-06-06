@@ -1,0 +1,38 @@
+# nav_policy development environment.
+# Reuses the figs:latest image built from FiGS-Standalone/Dockerfile.FiGS.
+#
+# Usage:
+#   cd nav_policy
+#   docker compose run --rm nav_policy
+#
+# Inside the container, your CWD will be /workspace/nav_policy with figs and
+# nav_policy installed as editable packages. The FiGS VelocityController is
+# importable as `from figs.control.velocity_controller import VelocityController`.
+
+services:
+  nav_policy:
+    image: figs:latest
+    volumes:
+      - .:/workspace/nav_policy
+      - ../FiGS-Standalone:/workspace/FiGS-Standalone
+    working_dir: /workspace/nav_policy
+    environment:
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+      - PYTHONUNBUFFERED=1
+      - DATA_PATH=/workspace/FiGS-Standalone/3dgs/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    network_mode: host
+    shm_size: '12gb'
+    stdin_open: true
+    tty: true
+    # Strip Windows CRLF from the entrypoint before executing it so the container
+    # works correctly even when the file was saved on Windows.  $@ forwards any
+    # `docker compose run` command override to the real entrypoint unchanged.
+    entrypoint: ["/bin/bash", "-c", "sed -i 's/\\r$//' /workspace/nav_policy/scripts/nav_policy_entrypoint.sh && exec /workspace/nav_policy/scripts/nav_policy_entrypoint.sh \"$@\"", "nav_policy_entrypoint"]
+    command: ["bash", "-l"]

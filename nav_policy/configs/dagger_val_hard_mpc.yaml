@@ -1,0 +1,93 @@
+# Intervention DAgger on 071733 val failures (BC/R1/R2/balanced all miss these).
+# Policy flies until drift or goal-distance oscillation, then MPC executes to goal.
+#
+# Failed goal rollouts (6/12): q01, q04, q06, q08, q10, q11
+
+base_config: configs/flightroom.yaml
+checkpoint: data/checkpoints_dagger_balanced_r12/bc_best.pt
+round: 3
+output_run: dagger_val_hard_intervention_mpc
+run_tag: dagger_val_hard_intervention_mpc
+
+oracle: mpc
+mpc_policy: vrmpc_rrt
+frame: carl
+Kv: 2.0
+Ka: 5.0
+split_assignment: train
+
+extended_horizon: true
+collection:
+  run_until_terminal: true
+  max_rollout_s: 60.0
+  collision_depth_threshold_m: 0.25
+  goal_position_tol_m: 0.5
+  goal_yaw_tol_rad: 0.5
+  depth_inference_stride: 3
+  check_collision: true
+  check_goal: true
+  warmup_steps: 30
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: true
+  settle_vel_mps: 0.12
+  settle_body_rate_radps: 0.35
+  settle_yaw_rate_radps: 0.30
+  settle_steps: 20
+
+intervention:
+  enabled: true
+  drift_threshold_m: 1.0           # incremental tracking error vs expert progress
+  min_policy_steps: 20             # ~1 s before drift/oscillation intervention
+  oscillation_window_steps: 40
+  oscillation_reversals: 4
+  collision_early_intervention: true
+  refresh_mpc_on_intervention: true
+  mpc_use_rti_for_execution: false  # RTI unsupported in current FiGS/acados (rti_phase error)
+  warmup_steps: 30
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: true
+
+rollouts:
+  - name: flightroom_val_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00001.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q04
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00004.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q06
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00006.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q08
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00008.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q10
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00010.pt
+    sub_idx: 0
+
+  - name: flightroom_val_q11
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: data/raw/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00011.pt
+    sub_idx: 0

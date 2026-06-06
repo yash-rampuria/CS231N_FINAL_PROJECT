@@ -1,0 +1,586 @@
+# eval_closed_loop_flightroom.yaml — full 110-rollout held-out eval set (071733).
+# For quick intermediate evals during training, set eval_subset_size in train config.
+
+checkpoint: data/checkpoints_a2_da2_crossattn/bc_best.pt
+output_dir: data/eval/flightroom_closed_loop
+run_tag: flightroom_closed_loop
+
+frame: carl
+Kv: 2.0
+Ka: 5.0
+reuse_simulator: true
+
+metrics:
+  run_until_terminal: true
+  max_rollout_s: 40.0
+  collision_depth_threshold_m: 0.25
+  goal_position_tol_m: 0.5
+  goal_yaw_tol_rad: 0.5
+  settle_vel_mps: 0.3
+  settle_body_rate_radps: 0.85
+  settle_yaw_rate_radps: 0.30
+  settle_steps: 1
+  depth_inference_stride: 3
+  check_collision: true
+  check_goal: true
+  warmup_steps: 30
+  warmup_kp_pos: 2.0
+  warmup_kd_vel: 1.0
+  warmup_kp_yaw: 2.0
+  warmup_max_vel: 0.8
+  warmup_max_yaw_rate: 1.0
+  warmup_prime_policy_buffer: true
+  success_tracking_tol_m: 1.0
+  bbox_margin: 2.0
+
+rollouts:
+  - name: flightroom_val_q00
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00000.pt
+    sub_idx: 0
+  - name: flightroom_val_q01
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00001.pt
+    sub_idx: 0
+  - name: flightroom_val_q02
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00002.pt
+    sub_idx: 0
+  - name: flightroom_val_q03
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00003.pt
+    sub_idx: 0
+  - name: flightroom_val_q04
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00004.pt
+    sub_idx: 0
+  - name: flightroom_val_q05
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00005.pt
+    sub_idx: 0
+  - name: flightroom_val_q06
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00006.pt
+    sub_idx: 0
+  - name: flightroom_val_q07
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00007.pt
+    sub_idx: 0
+  - name: flightroom_val_q08
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00008.pt
+    sub_idx: 0
+  - name: flightroom_val_q09
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00009.pt
+    sub_idx: 0
+  - name: flightroom_val_q10
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00010.pt
+    sub_idx: 0
+  - name: flightroom_val_q11
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00011.pt
+    sub_idx: 0
+  - name: flightroom_val_q12
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00012.pt
+    sub_idx: 0
+  - name: flightroom_val_q13
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00013.pt
+    sub_idx: 0
+  - name: flightroom_val_q14
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00014.pt
+    sub_idx: 0
+  - name: flightroom_val_q15
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00015.pt
+    sub_idx: 0
+  - name: flightroom_val_q16
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00016.pt
+    sub_idx: 0
+  - name: flightroom_val_q17
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00017.pt
+    sub_idx: 0
+  - name: flightroom_val_q18
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00018.pt
+    sub_idx: 0
+  - name: flightroom_val_q19
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00019.pt
+    sub_idx: 0
+  - name: flightroom_val_q20
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00020.pt
+    sub_idx: 0
+  - name: flightroom_val_q21
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00021.pt
+    sub_idx: 0
+  - name: flightroom_val_q22
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00022.pt
+    sub_idx: 0
+  - name: flightroom_val_q23
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00023.pt
+    sub_idx: 0
+  - name: flightroom_val_q24
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00024.pt
+    sub_idx: 0
+  - name: flightroom_val_q25
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00025.pt
+    sub_idx: 0
+  - name: flightroom_val_q26
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00026.pt
+    sub_idx: 0
+  - name: flightroom_val_q27
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00027.pt
+    sub_idx: 0
+  - name: flightroom_val_q28
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00028.pt
+    sub_idx: 0
+  - name: flightroom_val_q29
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00029.pt
+    sub_idx: 0
+  - name: flightroom_val_q30
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00030.pt
+    sub_idx: 0
+  - name: flightroom_val_q31
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00031.pt
+    sub_idx: 0
+  - name: flightroom_val_q32
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00032.pt
+    sub_idx: 0
+  - name: flightroom_val_q33
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00033.pt
+    sub_idx: 0
+  - name: flightroom_val_q34
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00034.pt
+    sub_idx: 0
+  - name: flightroom_val_q35
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00035.pt
+    sub_idx: 0
+  - name: flightroom_val_q36
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00036.pt
+    sub_idx: 0
+  - name: flightroom_val_q37
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00037.pt
+    sub_idx: 0
+  - name: flightroom_val_q38
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00038.pt
+    sub_idx: 0
+  - name: flightroom_val_q39
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00039.pt
+    sub_idx: 0
+  - name: flightroom_val_q40
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00040.pt
+    sub_idx: 0
+  - name: flightroom_val_q41
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00041.pt
+    sub_idx: 0
+  - name: flightroom_val_q42
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00042.pt
+    sub_idx: 0
+  - name: flightroom_val_q43
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00043.pt
+    sub_idx: 0
+  - name: flightroom_val_q44
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00044.pt
+    sub_idx: 0
+  - name: flightroom_val_q45
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00045.pt
+    sub_idx: 0
+  - name: flightroom_val_q46
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00046.pt
+    sub_idx: 0
+  - name: flightroom_val_q47
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00047.pt
+    sub_idx: 0
+  - name: flightroom_val_q48
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00048.pt
+    sub_idx: 0
+  - name: flightroom_val_q49
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00049.pt
+    sub_idx: 0
+  - name: flightroom_val_q50
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00050.pt
+    sub_idx: 0
+  - name: flightroom_val_q51
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00051.pt
+    sub_idx: 0
+  - name: flightroom_val_q52
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00052.pt
+    sub_idx: 0
+  - name: flightroom_val_q53
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00053.pt
+    sub_idx: 0
+  - name: flightroom_val_q54
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00054.pt
+    sub_idx: 0
+  - name: flightroom_val_q55
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00055.pt
+    sub_idx: 0
+  - name: flightroom_val_q56
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00056.pt
+    sub_idx: 0
+  - name: flightroom_val_q57
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00057.pt
+    sub_idx: 0
+  - name: flightroom_val_q58
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00058.pt
+    sub_idx: 0
+  - name: flightroom_val_q59
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00059.pt
+    sub_idx: 0
+  - name: flightroom_val_q60
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00060.pt
+    sub_idx: 0
+  - name: flightroom_val_q61
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00061.pt
+    sub_idx: 0
+  - name: flightroom_val_q62
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00062.pt
+    sub_idx: 0
+  - name: flightroom_val_q63
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00063.pt
+    sub_idx: 0
+  - name: flightroom_val_q64
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00064.pt
+    sub_idx: 0
+  - name: flightroom_val_q65
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00065.pt
+    sub_idx: 0
+  - name: flightroom_val_q66
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00066.pt
+    sub_idx: 0
+  - name: flightroom_val_q67
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00067.pt
+    sub_idx: 0
+  - name: flightroom_val_q68
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00068.pt
+    sub_idx: 0
+  - name: flightroom_val_q69
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00069.pt
+    sub_idx: 0
+  - name: flightroom_val_q70
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00070.pt
+    sub_idx: 0
+  - name: flightroom_val_q71
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00071.pt
+    sub_idx: 0
+  - name: flightroom_val_q72
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00072.pt
+    sub_idx: 0
+  - name: flightroom_val_q73
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00073.pt
+    sub_idx: 0
+  - name: flightroom_val_q74
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00074.pt
+    sub_idx: 0
+  - name: flightroom_val_q75
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00075.pt
+    sub_idx: 0
+  - name: flightroom_val_q76
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00076.pt
+    sub_idx: 0
+  - name: flightroom_val_q77
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00077.pt
+    sub_idx: 0
+  - name: flightroom_val_q78
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00078.pt
+    sub_idx: 0
+  - name: flightroom_val_q79
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00079.pt
+    sub_idx: 0
+  - name: flightroom_val_q80
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00080.pt
+    sub_idx: 0
+  - name: flightroom_val_q81
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00081.pt
+    sub_idx: 0
+  - name: flightroom_val_q82
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00082.pt
+    sub_idx: 0
+  - name: flightroom_val_q83
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00083.pt
+    sub_idx: 0
+  - name: flightroom_val_q84
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00084.pt
+    sub_idx: 0
+  - name: flightroom_val_q85
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00085.pt
+    sub_idx: 0
+  - name: flightroom_val_q86
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00086.pt
+    sub_idx: 0
+  - name: flightroom_val_q87
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00087.pt
+    sub_idx: 0
+  - name: flightroom_val_q88
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00088.pt
+    sub_idx: 0
+  - name: flightroom_val_q89
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00089.pt
+    sub_idx: 0
+  - name: flightroom_val_q90
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00090.pt
+    sub_idx: 0
+  - name: flightroom_val_q91
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00091.pt
+    sub_idx: 0
+  - name: flightroom_val_q92
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00092.pt
+    sub_idx: 0
+  - name: flightroom_val_q93
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00093.pt
+    sub_idx: 0
+  - name: flightroom_val_q94
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00094.pt
+    sub_idx: 0
+  - name: flightroom_val_q95
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00095.pt
+    sub_idx: 0
+  - name: flightroom_val_q96
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00096.pt
+    sub_idx: 0
+  - name: flightroom_val_q97
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00097.pt
+    sub_idx: 0
+  - name: flightroom_val_q98
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00098.pt
+    sub_idx: 0
+  - name: flightroom_val_q99
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00099.pt
+    sub_idx: 0
+  - name: flightroom_val_q100
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00100.pt
+    sub_idx: 0
+  - name: flightroom_val_q101
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00101.pt
+    sub_idx: 0
+  - name: flightroom_val_q102
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00102.pt
+    sub_idx: 0
+  - name: flightroom_val_q103
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00103.pt
+    sub_idx: 0
+  - name: flightroom_val_q104
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00104.pt
+    sub_idx: 0
+  - name: flightroom_val_q105
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00105.pt
+    sub_idx: 0
+  - name: flightroom_val_q106
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00106.pt
+    sub_idx: 0
+  - name: flightroom_val_q107
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00107.pt
+    sub_idx: 0
+  - name: flightroom_val_q108
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00108.pt
+    sub_idx: 0
+  - name: flightroom_val_q109
+    scene: flightroom_ssv_exp
+    rollout: baseline
+    setup_from: /home/yashr/CS231N/FiGS_data/vlead_flightroom/rollout_data/2026-05-22_071733_trajs-110/flightroom_ssv_exp_2026-05-22_071733_trajs-110/trajectories_val00109.pt
+    sub_idx: 0

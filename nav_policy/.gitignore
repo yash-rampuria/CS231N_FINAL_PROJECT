@@ -1,0 +1,21 @@
+# All data is generated artifacts (raw rollouts, processed caches,
+# checkpoints, evaluation outputs, training logs, wandb runs).  Re-create
+# locally with build_dataset.py / train_bc.py / eval_*.py.  Ignored
+# wholesale so per-ablation directories like data/checkpoints_bc/,
+# data/checkpoints_dagger_r1/, data/processed_smoke/, data/eval/ never
+# get committed accidentally.
+data/
+
+# Python build / cache
+__pycache__/
+*.egg-info/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

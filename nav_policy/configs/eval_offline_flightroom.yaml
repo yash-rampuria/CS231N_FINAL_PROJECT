@@ -1,0 +1,12 @@
+# Offline evaluation on flightroom val split (071733).
+# Checkpoint passed via --checkpoint CLI (not stored here).
+
+data:
+  processed_root: "data/processed_flightroom"
+  cache_blobs_in_memory: false
+  cache_lru_size: 128
+
+train:
+  batch_size: 128
+
+run_tag: flightroom_offline_val

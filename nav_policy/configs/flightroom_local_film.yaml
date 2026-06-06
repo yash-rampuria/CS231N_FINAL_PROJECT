@@ -1,0 +1,71 @@
+# Local BC training — FiLM goal conditioning, 4-goal train / ladder held-out val.
+#
+# Pipeline (run from nav_policy/):
+#   1. python scripts/build_dataset_flightroom.py --config configs/flightroom_local_film.yaml
+#   2. python scripts/precompute_da2_depth.py --processed-root data/processed_flightroom_film
+#   3. python -m nav_policy.train.train_bc --config configs/flightroom_local_film.yaml
+#
+# Train goals: drill + mannequin (071718), green clock + leafblower (071353).
+# Val goal:    ladder (071733) — held out, never seen in training.
+
+data:
+  raw_root: "data/raw"                          # symlinks -> FiGS_data run dirs
+  processed_root: "data/processed_flightroom_film"
+  bucket_sampling: true                         # local disk: group windows per cache file
+  cache_blobs_in_memory: false
+  cache_lru_size: 16            # 16 x 50MB x workers; 128 caused RAM OOM crash at val boundary
+
+  train_runs:
+    - "flightroom_ssv_exp_2026-05-22_071718"    # drill + mannequin
+    - "flightroom_ssv_exp_2026-05-22_071353"    # green clock + leafblower
+
+  val_runs:
+    - "flightroom_ssv_exp_2026-05-22_071733_trajs-110"   # ladder (held out)
+
+window:
+  T: 4
+  H: 10
+  image_size: 224
+  imagenet_mean: [0.485, 0.456, 0.406]
+  imagenet_std:  [0.229, 0.224, 0.225]
+
+model:
+  arch: rgb_da2_crossattn_v1
+  resnet_backbone: "resnet18"
+  freeze_stem_and_layer1: true
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  cmd_dim: 4
+  goal_conditioning: film       # FiLM: goal modulates GRU features + fed in every step
+  goal_emb_dim: 128             # bumped from 32 (goal now drives modulation)
+  goal_input_dim: 3
+  goal_distance_scale: 5.0
+  mlp_dropout: 0.1
+  depth_feat_dim: 256
+  cross_attn_heads: 4
+
+train:
+  batch_size: 256
+  num_workers: 4               # fewer forked workers; was 8 (RAM OOM at val boundary)
+  epochs: 15
+  run_tag: bc_film_4goals
+  color_jitter: true
+  observation_latency: 0
+  photometric_aug:
+    blur_prob: 0.3
+    blur_sigma_range: [0.5, 1.5]
+    gamma_prob: 0.3
+    gamma_range: [0.7, 1.4]
+    brightness_prob: 0.3
+    brightness_range: [0.6, 1.4]
+  lr: 6.0e-4
+  weight_decay: 1.0e-4
+  lambda_smooth: 0.05
+  amp: true
+  grad_clip: 1.0
+  checkpoint_dir: "data/checkpoints_bc_film_4goals"
+  log_every: 50
+  early_stopping_patience: 4
+  seed: 0
+  dagger_sampling: none         # pure BC (no DAgger data in this local build)

@@ -1,0 +1,45 @@
+# Ablation A0: ResNet RGB-only baseline (no depth).
+
+data:
+  processed_root: "data/processed_flightroom"
+  bucket_sampling: true
+  cache_blobs_in_memory: false
+  cache_lru_size: 128
+
+window:
+  T: 4
+  H: 10
+  image_size: 224
+
+model:
+  arch: rgb_resnet18
+  cmd_dim: 4
+  gru_hidden: 256
+  gru_layers: 1
+  mlp_hidden: [256, 128]
+  goal_emb_dim: 32
+  goal_input_dim: 3
+  goal_distance_scale: 5.0
+  mlp_dropout: 0.1
+  freeze_stem_and_layer1: true
+
+train:
+  batch_size: 128
+  num_workers: 0
+  epochs: 10
+  run_tag: a0_rgb_only
+  color_jitter: true
+  photometric_aug:
+    blur_prob: 0.3
+    blur_sigma_range: [0.5, 1.5]
+    gamma_prob: 0.3
+    gamma_range: [0.7, 1.4]
+    brightness_prob: 0.3
+    brightness_range: [0.6, 1.4]
+  lr: 6.0e-4
+  weight_decay: 1.0e-4
+  lambda_smooth: 0.05
+  amp: true
+  checkpoint_dir: "data/checkpoints_a0_rgb"
+  early_stopping_patience: 3
+  seed: 0

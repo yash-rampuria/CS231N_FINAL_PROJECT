@@ -1,0 +1,19 @@
+# Virtual environments (never commit)
+.venv/
+venv/
+env/
+
+# Python build / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
