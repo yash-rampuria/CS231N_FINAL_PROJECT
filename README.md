@@ -35,7 +35,7 @@ To get started, reference these comprehensive guides included in this repository
 | :--- | :--- | :--- |
 | 📖 **[LEAD Instructions](LEAD_instructions.md)** | Step-by-step guide to run the full neural policy training pipeline, environment setup, and `Semantic_HSM` training. | Users & Policy Researchers |
 | 🎮 **[FiGS Guide](FiGS_instructions.md)** | Complete simulator operator guide covering 3DGS training, perception modes, ACADOS flight control parameters, and rendering. | Simulator Operators & Control Engineers |
-| 🧠 **[Agent Context](AGENT_CONTEXT.md)** | Architectural blueprints, codebase maps, directories, volume setups, and gotchas. | AI Agents & Developers |
+
 
 ---
 
