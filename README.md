@@ -39,18 +39,6 @@ To get started, reference these comprehensive guides included in this repository
 
 ---
 
-## 📁 Repository Structure
-
-```
-V-LEAD/
-├── FiGS-Standalone/       # Submodule: Simulator, MPC Control, & 3DGS Rendering
-├── SINGER/                # Submodule: DAgger training pipeline & Imitation Policies
-├── AGENT_CONTEXT.md       # AI Architect blueprints & developer map
-├── LEAD_instructions.md   # Setup & pipeline instructions for training pilots
-├── FiGS_instructions.md   # Reference guide for Splat training and simulation
-├── LICENSE                # Project licensing
-└── README.md              # This directory overview
-```
 
 ---
 
